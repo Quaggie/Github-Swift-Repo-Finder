@@ -72,7 +72,26 @@ extension RepositoriesViewController: UICollectionViewDataSource {
 
 extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 328, height: 429)
+    
+    let maximumWidth: CGFloat = 350
+    let cellHeight: CGFloat = 400
+    
+    switch UIDevice.current.orientation {
+    case .portrait: fallthrough
+    case .portraitUpsideDown: fallthrough
+    case .faceUp: fallthrough
+    case .faceDown:
+      switch view.traitCollection.verticalSizeClass {
+        case .unspecified: fallthrough
+      case .compact:
+        return CGSize(width: view.frame.width, height: cellHeight)
+      case .regular:
+        return CGSize(width: maximumWidth, height: cellHeight)
+      }
+    case .landscapeLeft: fallthrough
+    case .landscapeRight: return CGSize(width: maximumWidth, height: cellHeight)
+    default: return CGSize(width: view.frame.width, height: cellHeight)
+    }
   }
 }
 
