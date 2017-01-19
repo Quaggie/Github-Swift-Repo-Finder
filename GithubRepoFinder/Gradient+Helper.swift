@@ -55,6 +55,7 @@ extension Gradientable where Self: UIView {
       gradientLayer.frame = self.bounds
       gradientLayer.locations = [0.0]
       gradientLayer.colors = colors.map { $0.cgColor as CGColor }
+      gradientLayer.name = "gradient"
       self.layer.insertSublayer(gradientLayer, at: 0)
     }
   }
@@ -67,6 +68,7 @@ extension Gradientable where Self: UIView {
       gradientLayer.frame = self.bounds
       gradientLayer.locations = locations
       gradientLayer.colors = colors.map { $0.cgColor as CGColor }
+      gradientLayer.name = "gradient"
       self.layer.insertSublayer(gradientLayer, at: 0)
     }
   }

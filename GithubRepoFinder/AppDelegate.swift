@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    // Carregando as informações assim que o app inicia
+    GithubAPI.shared.loadRepos()
     return true
   }
 

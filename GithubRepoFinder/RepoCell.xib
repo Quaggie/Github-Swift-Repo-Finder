@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="328" height="429"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="repo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Yex-FD-X8q">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="repo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Yex-FD-X8q">
                         <rect key="frame" x="0.0" y="46" width="328" height="328"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quaggie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBT-kj-9pt">
@@ -36,7 +36,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JVK-b2-W51">
                                 <rect key="frame" x="0.0" y="0.0" width="160" height="55"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qs3-Jc-GGU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_stargazer" translatesAutoresizingMaskIntoConstraints="NO" id="Qs3-Jc-GGU">
                                         <rect key="frame" x="8" y="8" width="39" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="2GX-yQ-UL8"/>
@@ -63,7 +63,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T4I-8w-KP4">
                                 <rect key="frame" x="168" y="0.0" width="160" height="55"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tjL-T0-zof">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_fork" translatesAutoresizingMaskIntoConstraints="NO" id="tjL-T0-zof">
                                         <rect key="frame" x="8" y="8" width="39" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="WoV-gz-XHW"/>
@@ -114,6 +114,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <color key="backgroundColor" red="0.32332645939086291" green="0.32332645939086291" blue="0.32332645939086291" alpha="0.36788313356164382" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3EQ-Hz-crP" firstAttribute="leading" secondItem="Qe0-ec-A6g" secondAttribute="leading" constant="8" id="1hQ-wP-zkv"/>
                             <constraint firstAttribute="trailing" secondItem="80U-wB-YCw" secondAttribute="trailing" constant="8" id="4lu-xU-g71"/>
@@ -124,6 +125,10 @@
                             <constraint firstAttribute="bottom" secondItem="3EQ-Hz-crP" secondAttribute="bottom" id="zMx-k6-dxw"/>
                         </constraints>
                     </view>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZNf-Bv-kba">
+                        <rect key="frame" x="155" y="205" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </activityIndicatorView>
                 </subviews>
             </view>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -143,10 +148,24 @@
                 <constraint firstItem="Qe0-ec-A6g" firstAttribute="leading" secondItem="7WU-FW-i7b" secondAttribute="leading" id="wpf-lj-7Om"/>
             </constraints>
             <size key="customSize" width="328" height="429"/>
+            <connections>
+                <outlet property="activityIndicator" destination="ZNf-Bv-kba" id="QLL-dW-PfG"/>
+                <outlet property="avatarUrlImageView" destination="Yex-FD-X8q" id="j7X-eu-8Eo"/>
+                <outlet property="descriptionLabel" destination="3EQ-Hz-crP" id="aON-0a-xb2"/>
+                <outlet property="forksImageView" destination="tjL-T0-zof" id="cX3-gY-AHz"/>
+                <outlet property="forksLabel" destination="Jdh-5P-71E" id="olg-Bg-haa"/>
+                <outlet property="gradientView" destination="Qe0-ec-A6g" id="4vt-YW-1VU"/>
+                <outlet property="loginLabel" destination="wBT-kj-9pt" id="Hnf-w3-yUz"/>
+                <outlet property="nameLabel" destination="80U-wB-YCw" id="ga9-L6-KvW"/>
+                <outlet property="stargazersCountLabel" destination="7ug-cZ-Ond" id="GG3-ys-yH3"/>
+                <outlet property="stargazersImageView" destination="Qs3-Jc-GGU" id="Sps-aL-UQf"/>
+            </connections>
             <point key="canvasLocation" x="195" y="8.5"/>
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="ic_fork" width="25" height="25"/>
+        <image name="ic_stargazer" width="25" height="25"/>
         <image name="repo_placeholder" width="210" height="210"/>
     </resources>
 </document>
