@@ -17,6 +17,7 @@ class RepositoriesViewController: UIViewController {
       collectionView.reloadData()
     }
   }
+  var isFetching = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,13 +41,13 @@ extension RepositoriesViewController {
     
     let flowLayout = UICollectionViewFlowLayout()
     flowLayout.scrollDirection = .vertical
-    flowLayout.minimumLineSpacing = 8
-    flowLayout.minimumInteritemSpacing = 8
+    flowLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     
     collectionView.setCollectionViewLayout(flowLayout, animated: true)
   }
 }
 
+// MARK: UICollectionView Delegate, Datasrouce, DelegateFlowLayout
 extension RepositoriesViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("selected cell at \(indexPath)")
@@ -58,6 +59,18 @@ extension RepositoriesViewController: UICollectionViewDataSource {
     if let repoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? RepoCell {
       let repository = githubRepo?.items?[indexPath.item]
       repoCell.repository = repository
+      
+      if let githubRepo = githubRepo, let items = githubRepo.items, let totalCount = githubRepo.totalCount {
+        if indexPath.item == items.count - 1 { // last cell
+          if totalCount > items.count { // all cells
+            print("Total(\(totalCount)) || items(\(items.count))")
+            if !isFetching {
+              GithubAPI.shared.loadNextPage()
+            }
+          }
+        }
+      }
+      
       return repoCell
     }
     return UICollectionViewCell()
@@ -72,8 +85,9 @@ extension RepositoriesViewController: UICollectionViewDataSource {
 
 extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    print(view.frame.width)
     
-    let maximumWidth: CGFloat = 350
+    let maximumWidth: CGFloat = 375
     let cellHeight: CGFloat = 400
     
     switch UIDevice.current.orientation {
@@ -81,7 +95,7 @@ extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
     case .portraitUpsideDown: fallthrough
     case .faceUp: fallthrough
     case .faceDown:
-      switch view.traitCollection.verticalSizeClass {
+      switch view.traitCollection.horizontalSizeClass {
         case .unspecified: fallthrough
       case .compact:
         return CGSize(width: view.frame.width, height: cellHeight)
@@ -89,21 +103,32 @@ extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: maximumWidth, height: cellHeight)
       }
     case .landscapeLeft: fallthrough
-    case .landscapeRight: return CGSize(width: maximumWidth, height: cellHeight)
+    case .landscapeRight:
+      return CGSize(width: maximumWidth, height: cellHeight)
     default: return CGSize(width: view.frame.width, height: cellHeight)
     }
   }
 }
 
 // MARK: GithubApi Delegate
-extension RepositoriesViewController: GithubApiDelegate{
+extension RepositoriesViewController: GithubApiDelegate {
   func successfullyRetrieved(githubRepo: GithubRepo) {
-//    print(githubRepo)
-    self.githubRepo = githubRepo
+    isFetching = false
+    if GithubAPI.shared.isFirstTime {
+      self.githubRepo = githubRepo
+    } else {
+      if let items = githubRepo.items {
+        self.githubRepo?.items?.append(contentsOf: items)
+      }
+    }
   }
   
   func failedToRetrieve(with error: Error) {
-//    print(error)
+    isFetching = false
+  }
+  
+  func loadingRepos () {
+    isFetching = true
   }
 }
 

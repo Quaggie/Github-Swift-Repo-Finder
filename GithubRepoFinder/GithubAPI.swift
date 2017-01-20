@@ -14,13 +14,25 @@ class GithubAPI: NSObject {
   static let shared = GithubAPI()
   private override init () {}
   
-  let REPO_URL = "https://api.github.com/search/repositories?q=language:Swift&sort=stars&page=1"
+  var REPO_URL: String {
+    return "https://api.github.com/search/repositories?q=language:\(language)&sort=star\(sort)&page=\(page)"
+  }
   
   var githubApiDelegate: GithubApiDelegate?
-  var totalCount: Int = 0
-  var page: Int = 0
+  private(set) var isFirstTime = true
+  private(set) var page: Int = 1 {
+    didSet {
+      if page > 1, isFirstTime == true {
+        isFirstTime = false
+      }
+      loadRepos()
+    }
+  }
+  let language = "Swift"
+  let sort = "stars"
   
   func loadRepos () {
+    githubApiDelegate?.loadingRepos()
     Alamofire.request(REPO_URL).responseObject { [weak self] (response: DataResponse<GithubRepo>) in
       switch response.result {
       case .success(let githubRepo):
@@ -32,4 +44,8 @@ class GithubAPI: NSObject {
       }
     }
   } // loadRepos
+  
+  func loadNextPage () {
+    page += page + 1
+  }
 }

@@ -16,6 +16,10 @@ class RepoCell: UICollectionViewCell {
       guard let repository = repository else {
         return
       }
+      layer.cornerRadius = 5.0
+      layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+      layer.borderWidth = 1.0
+      
       
       if let name = repository.name {
         nameLabel.text = name
