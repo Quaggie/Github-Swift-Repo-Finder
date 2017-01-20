@@ -62,11 +62,14 @@ class GithubAPI: NSObject {
     
   } // loadRepos
   
-  func loadPullRequests (repoName: String, page: Int = 1) {
+  func loadPullRequests (repo: Repository, page: Int = 1) {
+    guard let fullName = repo.fullName else {
+      return
+    }
     pullRequestsDelegate?.loadingPullRequests()
     
     if reachability.isReachable { // Internet connection Ok
-      let PULL_REQUESTS_URL = "https://api.github.com/repos/\(repoName)/pulls?page=\(page)"
+      let PULL_REQUESTS_URL = "https://api.github.com/repos/\(fullName)/pulls?page=\(page)"
       Alamofire.request(PULL_REQUESTS_URL).responseArray { [weak self] (response: DataResponse<[PullRequest]>) in
         switch response.result {
         case .success(let pullRequests):
@@ -78,7 +81,9 @@ class GithubAPI: NSObject {
         }
       }
     } else { // No internet connection
-      // TODO: Make a core data request
+      if let pullRequests = CoreDataManager.shared.fetchPullRequests(for: repo) {
+        pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests)
+      }
     }
     
   } // loadPullRequests

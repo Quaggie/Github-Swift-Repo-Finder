@@ -15,41 +15,72 @@ class CoreDataManager: NSObject {
   private override init () {}
   
   func saveGithubRepo (githubRepo: GithubRepo?) {
-//    guard let githubRepo = githubRepo else {
-//      return
-//    }
-//
-//    if let githubRepoEntity = NSEntityDescription.entity(forEntityName: GithubRepo.entityName, in: managedObjectContext) {
-//      let githubRepoEntityModel = GithubRepoEntityModel(entity: githubRepoEntity, insertInto: managedObjectContext)
-//      githubRepoEntityModel.setValue(githubRepo.totalCount, forKey: "totalCount")
-//      githubRepoEntityModel.setValue(githubRepo.incompleteResults, forKey: "incompleteResults")
-//      
-//      let repos = NSMutableSet()
-//      githubRepo.items?.forEach{ repo in
-//        if let repositoryEntity = NSEntityDescription.entity(forEntityName: Repository.entityName, in: managedObjectContext) {
-//          let repositoryEntityModel = NSManagedObject(entity: repositoryEntity, insertInto: managedObjectContext)
-//          repositoryEntityModel.setValue(repo.id, forKey: "id")
-//          repositoryEntityModel.setValue(repo.name, forKey: "name")
-//          repositoryEntityModel.setValue(repo.fullName, forKey: "fullName")
-//          repositoryEntityModel.setValue(repo.desc, forKey: "desc")
-//          repositoryEntityModel.setValue(repo.stargazersCount, forKey: "stargazersCount")
-//          repositoryEntityModel.setValue(repo.forks, forKey: "forks")
-//          
-//          if let ownerEntity = NSEntityDescription.entity(forEntityName: Owner.entityName, in: managedObjectContext) {
-//            let ownerEntityModel = NSManagedObject(entity: ownerEntity, insertInto: managedObjectContext)
-//            ownerEntityModel.setValue(repo.owner?.id, forKey: "id")
-//            ownerEntityModel.setValue(repo.owner?.login, forKey: "login")
-//            ownerEntityModel.setValue(repo.owner?.avatarUrl, forKey: "avatarUrl")
-//            
-//            repositoryEntityModel.setValue(ownerEntityModel, forKey: "owner")
-//          } // ownerEntity
-//          repos.add(repositoryEntityModel)
-//        } // repositoryEntity
-//        githubRepoEntityModel.setValue(repos, forKey: "items")
-//      } // forEach
-//    } // githubRepoEntity
-//    
-//    saveContext()
+    guard let githubRepo = githubRepo else {
+      return
+    }
+    
+    let githubRepoFetchRequest = NSFetchRequest<GithubRepoEntity>(entityName: GithubRepo.entityName)
+    
+    var githubRepoEntityModel: NSManagedObject?
+    
+    if let githubRepoEntity = NSEntityDescription.entity(forEntityName: GithubRepo.entityName, in: managedObjectContext) {
+      githubRepoEntityModel = NSManagedObject(entity: githubRepoEntity, insertInto: managedObjectContext)
+    }
+    
+    do {
+      let results = try managedObjectContext.fetch(githubRepoFetchRequest)
+      
+      if results.count > 1 {
+        // Removing the all uneeded objects
+        results.forEach { managedObjectContext.delete($0) }
+      } else {
+        // Grabbing the model if it already exists
+        if let first = results.first, results.count == 1 {
+          githubRepoEntityModel = first
+        }
+      }
+    } catch {
+      print("Error on deleting github repos")
+    }
+    
+    githubRepoEntityModel?.setValue(githubRepo.totalCount, forKey: "totalCount")
+    githubRepoEntityModel?.setValue(githubRepo.incompleteResults, forKey: "incompleteResults")
+    
+    let repos = NSMutableSet()
+    githubRepo.items?.forEach{ repo in
+      if let repositoryEntity = NSEntityDescription.entity(forEntityName: Repository.entityName, in: managedObjectContext) {
+        let repositoryEntityModel = NSManagedObject(entity: repositoryEntity, insertInto: managedObjectContext)
+        repositoryEntityModel.setValue(repo.id, forKey: "id")
+        repositoryEntityModel.setValue(repo.name, forKey: "name")
+        repositoryEntityModel.setValue(repo.fullName, forKey: "fullName")
+        repositoryEntityModel.setValue(repo.desc, forKey: "desc")
+        repositoryEntityModel.setValue(repo.stargazersCount, forKey: "stargazersCount")
+        repositoryEntityModel.setValue(repo.forks, forKey: "forks")
+        
+        if let ownerEntity = NSEntityDescription.entity(forEntityName: Owner.entityName, in: managedObjectContext) {
+          let ownerEntityModel = NSManagedObject(entity: ownerEntity, insertInto: managedObjectContext)
+          ownerEntityModel.setValue(repo.owner?.id, forKey: "id")
+          ownerEntityModel.setValue(repo.owner?.login, forKey: "login")
+          ownerEntityModel.setValue(repo.owner?.avatarUrl, forKey: "avatarUrl")
+          
+          repositoryEntityModel.setValue(ownerEntityModel, forKey: "owner")
+        } // ownerEntity
+        repos.add(repositoryEntityModel)
+      } // repositoryEntity
+      
+      // If it's the first, add everything to the objects
+      if GithubAPI.shared.isFirstTime {
+        githubRepoEntityModel?.setValue(repos, forKey: "items")
+      } else { // Only append to the original model for the pagination to work normally
+        if let items = githubRepoEntityModel?.value(forKey: "items") as? NSSet {
+          var allObjects = items.allObjects
+          allObjects.append(contentsOf: repos)
+          githubRepoEntityModel?.setValue(NSSet(array: allObjects), forKey: "items")
+        }
+      }
+    } // forEach
+    
+    saveContext()
   }
   
   func fetchGithubRepo (page: Int = 1, limit: Int = 30) -> GithubRepo? {
@@ -113,10 +144,10 @@ class CoreDataManager: NSObject {
     return nil
   }
   
-  func fetchPullRequests (for repo: Repository) -> [PullRequest?]? {
+  func fetchPullRequests (for repo: Repository) -> [PullRequest]? {
     let pullRequestsFetchRequest = NSFetchRequest<PullRequestEntity>(entityName: PullRequest.entityName)
     if let id = repo.id {
-      let predicate = NSPredicate(format: "id = %@", id)
+      let predicate = NSPredicate(format: "id = %@", "\(id)")
       
       pullRequestsFetchRequest.predicate = predicate
     } else {
@@ -126,7 +157,7 @@ class CoreDataManager: NSObject {
     do {
       let pullRequestEntities = try managedObjectContext.fetch(pullRequestsFetchRequest)
       
-      return pullRequestEntities.map{ pullRequestEntity -> PullRequest? in
+      return pullRequestEntities.map{ pullRequestEntity -> PullRequest in
         var pullRequestJson: [String: Any] = [:]
         
         pullRequestJson["id"] = Int(pullRequestEntity.id)
@@ -157,7 +188,7 @@ class CoreDataManager: NSObject {
           pullRequestJson["user"] = userJson
         }
         
-        return PullRequest(JSON: pullRequestJson)
+        return PullRequest(JSON: pullRequestJson)!
       }
     } catch let error as NSError {
       print("Error \(error.localizedDescription) with userinfo -> \(error.userInfo)")

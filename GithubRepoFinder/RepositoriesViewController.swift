@@ -98,7 +98,7 @@ extension RepositoriesViewController: UICollectionViewDataSource {
       if let githubRepo = githubRepo, let items = githubRepo.items, let totalCount = githubRepo.totalCount { // Unwrapping
         if indexPath.item == items.count - 1 { // last cell
           if totalCount > items.count { // all cells
-            if !isFetching { // Verify if it isn't already loading
+            if !isFetching, reachability.isReachable { // Verify if it isn't already loading
               GithubAPI.shared.loadNextPage()
             }
           }

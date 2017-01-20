@@ -55,10 +55,10 @@ class PullRequestsViewController: UIViewController {
 // MARK: Setup
 extension PullRequestsViewController {
   func setupPullRequests () {
-    guard let repo = repo, let fullName = repo.fullName else {
+    guard let repo = repo else {
       return
     }
-    GithubAPI.shared.loadPullRequests(repoName: fullName)
+    GithubAPI.shared.loadPullRequests(repo: repo)
   }
   
   func setupDelegates () {
