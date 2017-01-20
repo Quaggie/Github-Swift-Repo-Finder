@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="170" id="KGk-i7-Jjw" customClass="PullRequestCell" customModule="GithubRepoFinder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="385" height="170"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="385" height="169.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamofire" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SnK-Re-lb1">
+                        <rect key="frame" x="8" y="8" width="369" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="cpq-L2-1ma"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ct-VX-Qif">
+                        <rect key="frame" x="8" y="47" width="369" height="63"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="63" id="etT-da-eJa"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quaggie" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnF-Mx-fNB">
+                        <rect key="frame" x="61" y="118" width="316" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="4aT-LC-bXr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.2409519011" green="0.24333756349999999" blue="0.24333756349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="repo_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="1XS-99-CPE">
+                        <rect key="frame" x="8" y="118" width="45" height="46"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="46" id="BAj-Ah-LKQ"/>
+                            <constraint firstAttribute="width" constant="45" id="uaa-QU-Dpz"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18:00 - 01/01/2016" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EV9-UI-8kY">
+                        <rect key="frame" x="61" y="146" width="316" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="ZMn-yn-KTy"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                        <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="5ct-VX-Qif" firstAttribute="top" secondItem="SnK-Re-lb1" secondAttribute="bottom" constant="8" id="13I-sp-zRH"/>
+                    <constraint firstItem="EV9-UI-8kY" firstAttribute="leading" secondItem="1XS-99-CPE" secondAttribute="trailing" constant="8" id="2ci-e9-SL6"/>
+                    <constraint firstItem="vnF-Mx-fNB" firstAttribute="leading" secondItem="1XS-99-CPE" secondAttribute="trailing" constant="8" id="3aX-jA-10k"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="5ct-VX-Qif" secondAttribute="trailing" id="5Sp-BM-fov"/>
+                    <constraint firstItem="SnK-Re-lb1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Dk2-6o-Bfw"/>
+                    <constraint firstItem="SnK-Re-lb1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="FsL-gB-T5W"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="SnK-Re-lb1" secondAttribute="trailing" id="O8d-Kn-OlV"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="EV9-UI-8kY" secondAttribute="trailing" id="cf2-yW-5jS"/>
+                    <constraint firstItem="EV9-UI-8kY" firstAttribute="bottom" secondItem="1XS-99-CPE" secondAttribute="bottom" id="e2X-yB-kZM"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vnF-Mx-fNB" secondAttribute="trailing" id="gyF-RX-lFE"/>
+                    <constraint firstItem="5ct-VX-Qif" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="q89-BU-jHV"/>
+                    <constraint firstItem="vnF-Mx-fNB" firstAttribute="top" secondItem="1XS-99-CPE" secondAttribute="top" id="rH2-HB-VRJ"/>
+                    <constraint firstItem="1XS-99-CPE" firstAttribute="top" secondItem="5ct-VX-Qif" secondAttribute="bottom" constant="8" id="zH2-FM-1BL"/>
+                    <constraint firstItem="1XS-99-CPE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="zWy-pb-NPl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="66.5" y="142"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="repo_placeholder" width="210" height="210"/>
+    </resources>
+</document>

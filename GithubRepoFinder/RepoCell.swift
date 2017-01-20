@@ -20,7 +20,6 @@ class RepoCell: UICollectionViewCell {
       layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
       layer.borderWidth = 1.0
       
-      
       if let name = repository.name {
         nameLabel.text = name
       } else {
@@ -78,5 +77,4 @@ class RepoCell: UICollectionViewCell {
   @IBOutlet weak var forksLabel: UILabel!
  
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-  
 }

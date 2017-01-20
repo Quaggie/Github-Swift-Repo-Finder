@@ -114,7 +114,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.32332645939086291" green="0.32332645939086291" blue="0.32332645939086291" alpha="0.36788313356164382" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.32332645939999999" green="0.32332645939999999" blue="0.32332645939999999" alpha="0.36788313360000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3EQ-Hz-crP" firstAttribute="leading" secondItem="Qe0-ec-A6g" secondAttribute="leading" constant="8" id="1hQ-wP-zkv"/>
                             <constraint firstAttribute="trailing" secondItem="80U-wB-YCw" secondAttribute="trailing" constant="8" id="4lu-xU-g71"/>
@@ -126,7 +126,7 @@
                         </constraints>
                     </view>
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZNf-Bv-kba">
-                        <rect key="frame" x="139.5" y="175" width="20" height="20"/>
+                        <rect key="frame" x="140" y="175" width="20" height="20"/>
                     </activityIndicatorView>
                 </subviews>
             </view>

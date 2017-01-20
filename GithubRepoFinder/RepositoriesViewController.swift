@@ -63,7 +63,6 @@ extension RepositoriesViewController: UICollectionViewDataSource {
       if let githubRepo = githubRepo, let items = githubRepo.items, let totalCount = githubRepo.totalCount {
         if indexPath.item == items.count - 1 { // last cell
           if totalCount > items.count { // all cells
-            print("Total(\(totalCount)) || items(\(items.count))")
             if !isFetching {
               GithubAPI.shared.loadNextPage()
             }
