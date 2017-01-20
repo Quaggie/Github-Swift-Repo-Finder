@@ -17,7 +17,7 @@ struct PullRequest: Mappable {
   var user: Owner?
   
   init?(map: Map) {
-    g
+    
   }
   
   mutating func mapping(map: Map) {

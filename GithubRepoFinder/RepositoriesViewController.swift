@@ -14,10 +14,17 @@ class RepositoriesViewController: UIViewController {
   @IBOutlet weak var collectionView: UICollectionView!
   var githubRepo: GithubRepo? {
     didSet {
+      guard githubRepo != nil else {
+        return
+      }
       collectionView.reloadData()
     }
   }
   var isFetching = false
+  
+  class func instantiateFromStoryboard () -> RepositoriesViewController {
+    return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RepositoriesViewController") as! RepositoriesViewController
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,7 +57,13 @@ extension RepositoriesViewController {
 // MARK: UICollectionView Delegate, Datasrouce, DelegateFlowLayout
 extension RepositoriesViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("selected cell at \(indexPath)")
+    guard let githubRepo = githubRepo, let items = githubRepo.items else {
+      return
+    }
+    let repo = items[indexPath.row]
+    let pullRequestsVC = PullRequestsViewController.instantiateFromStoryboard()
+    pullRequestsVC.repo = repo
+    navigationController?.pushViewController(pullRequestsVC, animated: true)
   }
 }
 
@@ -75,10 +88,7 @@ extension RepositoriesViewController: UICollectionViewDataSource {
     return UICollectionViewCell()
   }
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if let githubRepo = githubRepo, let items = githubRepo.items {
-      return items.count
-    }
-    return 0
+    return githubRepo?.items?.count ?? 0
   }
 }
 

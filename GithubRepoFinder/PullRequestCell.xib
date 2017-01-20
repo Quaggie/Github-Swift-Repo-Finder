@@ -62,6 +62,9 @@
                         <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YXq-eP-7D0">
+                        <rect key="frame" x="20" y="131" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5ct-VX-Qif" firstAttribute="top" secondItem="SnK-Re-lb1" secondAttribute="bottom" constant="8" id="13I-sp-zRH"/>
@@ -71,6 +74,8 @@
                     <constraint firstItem="SnK-Re-lb1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Dk2-6o-Bfw"/>
                     <constraint firstItem="SnK-Re-lb1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="FsL-gB-T5W"/>
                     <constraint firstAttribute="trailingMargin" secondItem="SnK-Re-lb1" secondAttribute="trailing" id="O8d-Kn-OlV"/>
+                    <constraint firstItem="YXq-eP-7D0" firstAttribute="centerX" secondItem="1XS-99-CPE" secondAttribute="centerX" id="SMc-yM-PwY"/>
+                    <constraint firstItem="YXq-eP-7D0" firstAttribute="centerY" secondItem="1XS-99-CPE" secondAttribute="centerY" id="YYg-qK-w6m"/>
                     <constraint firstAttribute="trailingMargin" secondItem="EV9-UI-8kY" secondAttribute="trailing" id="cf2-yW-5jS"/>
                     <constraint firstItem="EV9-UI-8kY" firstAttribute="bottom" secondItem="1XS-99-CPE" secondAttribute="bottom" id="e2X-yB-kZM"/>
                     <constraint firstAttribute="trailingMargin" secondItem="vnF-Mx-fNB" secondAttribute="trailing" id="gyF-RX-lFE"/>
@@ -80,6 +85,14 @@
                     <constraint firstItem="1XS-99-CPE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="zWy-pb-NPl"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="activityIndicator" destination="YXq-eP-7D0" id="4Gb-Xg-2MO"/>
+                <outlet property="bodyLabel" destination="5ct-VX-Qif" id="ts9-tu-SY2"/>
+                <outlet property="dateLabel" destination="EV9-UI-8kY" id="X4J-89-8zK"/>
+                <outlet property="ownerAvatarImageView" destination="1XS-99-CPE" id="oZ2-bx-xns"/>
+                <outlet property="ownerNameLabel" destination="vnF-Mx-fNB" id="wLc-Yv-dth"/>
+                <outlet property="titleLabel" destination="SnK-Re-lb1" id="AEX-CX-qWs"/>
+            </connections>
             <point key="canvasLocation" x="66.5" y="142"/>
         </tableViewCell>
     </objects>
