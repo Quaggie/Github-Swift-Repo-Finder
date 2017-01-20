@@ -54,17 +54,18 @@ class CoreDataManager: NSObject {
   
   func fetchGithubRepo (page: Int = 1, limit: Int = 30) -> GithubRepo? {
     let githubRepoFetchRequest = NSFetchRequest<GithubRepoEntity>(entityName: GithubRepo.entityName)
+    githubRepoFetchRequest.fetchLimit = 1
     
     do {
-      let results = try managedObjectContext.fetch(githubRepoFetchRequest)
-      if let result = results.first {
+      let githubRepos = try managedObjectContext.fetch(githubRepoFetchRequest)
+      if let githubRepo = githubRepos.first {
         
         var githubRepoJson: [String: Any] = [
-          "total_count" : Int(result.totalCount),
-          "incomplete_results": result.incompleteResults,
+          "total_count" : Int(githubRepo.totalCount),
+          "incomplete_results": githubRepo.incompleteResults,
         ]
 
-        if let items = result.items, let objects = items.allObjects as? [RepositoryEntity] {
+        if let items = githubRepo.items, let objects = items.allObjects as? [RepositoryEntity] {
           // Sorting by github stars
           let sortedObjects = objects.sorted(by: { (prev, curr) -> Bool in
             return prev.stargazersCount > curr.stargazersCount
@@ -74,6 +75,7 @@ class CoreDataManager: NSObject {
             var repoJson: [String: Any?] = [:]
             
             repoJson["id"] = Int(repo.id)
+            
             if let name = repo.name {
               repoJson["name"] = name
             }
@@ -104,6 +106,58 @@ class CoreDataManager: NSObject {
           githubRepoJson["items"] = repos
         }
         return GithubRepo(JSON: githubRepoJson)
+      }
+    } catch let error as NSError {
+      print("Error \(error.localizedDescription) with userinfo -> \(error.userInfo)")
+    }
+    return nil
+  }
+  
+  func fetchPullRequests (for repo: Repository) -> [PullRequest?]? {
+    let pullRequestsFetchRequest = NSFetchRequest<PullRequestEntity>(entityName: PullRequest.entityName)
+    if let id = repo.id {
+      let predicate = NSPredicate(format: "id = %@", id)
+      
+      pullRequestsFetchRequest.predicate = predicate
+    } else {
+      return nil
+    }
+    
+    do {
+      let pullRequestEntities = try managedObjectContext.fetch(pullRequestsFetchRequest)
+      
+      return pullRequestEntities.map{ pullRequestEntity -> PullRequest? in
+        var pullRequestJson: [String: Any] = [:]
+        
+        pullRequestJson["id"] = Int(pullRequestEntity.id)
+        
+        if let url = pullRequestEntity.url {
+          pullRequestJson["url"] = url
+        }
+        if let title = pullRequestEntity.title {
+          pullRequestJson["title"] = title
+        }
+        if let createdAt = pullRequestEntity.createdAt {
+          pullRequestJson["created_at"] = createdAt
+        }
+        if let body = pullRequestEntity.body {
+          pullRequestJson["body"] = body
+        }
+        if let user = pullRequestEntity.user {
+          var userJson: [String: Any?] = [:]
+          
+          userJson["id"] = Int(user.id)
+          if let login = user.login {
+            userJson["login"] = login
+          }
+          if let avatarUrl = user.avatarUrl {
+            userJson["avatarUrl"] = avatarUrl
+          }
+          
+          pullRequestJson["user"] = userJson
+        }
+        
+        return PullRequest(JSON: pullRequestJson)
       }
     } catch let error as NSError {
       print("Error \(error.localizedDescription) with userinfo -> \(error.userInfo)")
