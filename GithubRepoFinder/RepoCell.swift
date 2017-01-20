@@ -25,8 +25,8 @@ class RepoCell: UICollectionViewCell {
       } else {
         nameLabel.text = "N/D"
       }
-      if let description = repository.description {
-        descriptionLabel.text = description
+      if let desc = repository.desc {
+        descriptionLabel.text = desc
       } else {
         descriptionLabel.text = "..."
       }

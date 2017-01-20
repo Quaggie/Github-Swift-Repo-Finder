@@ -91,17 +91,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XKH-nx-XMM">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WZI-nt-cQQ" firstAttribute="leading" secondItem="6Ie-pj-DWV" secondAttribute="leading" id="AhF-dY-BA3"/>
+                            <constraint firstItem="XKH-nx-XMM" firstAttribute="centerY" secondItem="6Ie-pj-DWV" secondAttribute="centerY" id="bkX-jl-THD"/>
                             <constraint firstItem="WZI-nt-cQQ" firstAttribute="top" secondItem="6Ie-pj-DWV" secondAttribute="top" id="efD-NN-1QY"/>
                             <constraint firstAttribute="trailing" secondItem="WZI-nt-cQQ" secondAttribute="trailing" id="j4K-vU-PQ0"/>
+                            <constraint firstItem="XKH-nx-XMM" firstAttribute="centerX" secondItem="6Ie-pj-DWV" secondAttribute="centerX" id="mZ9-v5-1Ha"/>
                             <constraint firstItem="dK5-3h-YAL" firstAttribute="top" secondItem="WZI-nt-cQQ" secondAttribute="bottom" id="vcP-aO-7wl"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="XKH-nx-XMM" id="pYh-dL-mcb"/>
                         <outlet property="tableView" destination="WZI-nt-cQQ" id="Ffm-wf-0MM"/>
                     </connections>
                 </viewController>

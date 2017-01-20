@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import ReachabilitySwift
 
 class RepositoriesViewController: UIViewController {
   
+  let reachability = Reachability()!
   let reuseIdentifier = "RepoCell"
+  
   @IBOutlet weak var collectionView: UICollectionView!
+  
   var githubRepo: GithubRepo? {
     didSet {
       guard githubRepo != nil else {
@@ -30,6 +34,16 @@ class RepositoriesViewController: UIViewController {
     super.viewDidLoad()
     setupCollectionView()
     setupDelegates()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    addObservers()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeObservers()
   }
   
   func setupDelegates () {
@@ -73,10 +87,10 @@ extension RepositoriesViewController: UICollectionViewDataSource {
       let repository = githubRepo?.items?[indexPath.item]
       repoCell.repository = repository
       
-      if let githubRepo = githubRepo, let items = githubRepo.items, let totalCount = githubRepo.totalCount {
+      if let githubRepo = githubRepo, let items = githubRepo.items, let totalCount = githubRepo.totalCount { // Unwrapping
         if indexPath.item == items.count - 1 { // last cell
           if totalCount > items.count { // all cells
-            if !isFetching {
+            if !isFetching { // Verify if it isn't already loading
               GithubAPI.shared.loadNextPage()
             }
           }
@@ -94,10 +108,10 @@ extension RepositoriesViewController: UICollectionViewDataSource {
 
 extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    print(view.frame.width)
     
     let maximumWidth: CGFloat = 375
     let cellHeight: CGFloat = 400
+    let sideInsets: CGFloat = 16
     
     switch UIDevice.current.orientation {
     case .portrait: fallthrough
@@ -107,7 +121,7 @@ extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
       switch view.traitCollection.horizontalSizeClass {
         case .unspecified: fallthrough
       case .compact:
-        return CGSize(width: view.frame.width, height: cellHeight)
+        return CGSize(width: view.frame.width - sideInsets, height: cellHeight)
       case .regular:
         return CGSize(width: maximumWidth, height: cellHeight)
       }
@@ -140,4 +154,48 @@ extension RepositoriesViewController: GithubApiDelegate {
     isFetching = true
   }
 }
+
+// MARK: Observers
+extension RepositoriesViewController {
+  
+  func addObservers () {
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(reachabilityChanged),
+                                           name: ReachabilityChangedNotification,
+                                           object: reachability)
+    do{
+      try reachability.startNotifier()
+    } catch {
+      print("Could not start reachability notifier")
+    }
+  }
+  
+  func removeObservers () {
+    reachability.stopNotifier()
+    NotificationCenter.default.removeObserver(self,
+                                              name: ReachabilityChangedNotification,
+                                              object: reachability)
+  }
+  
+  func reachabilityChanged (notification: Notification) {
+    guard let reachability = notification.object as? Reachability else {
+      return
+    }
+    
+    
+    if reachability.isReachable {
+      print("reachable")
+    } else {
+      print("Network not reachable")
+    }
+  }
+}
+
+
+
+
+
+
+
+
 

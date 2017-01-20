@@ -22,7 +22,7 @@ class PullRequestCell: UITableViewCell {
       if let body = pullRequest.body {
         bodyLabel.text = body
       }
-      if let date = pullRequest.createdAt {
+      if let dateString = pullRequest.createdAt, let date = dateString.dateFromISO8601 {
         dateLabel.text = date.stringFormat(format: "HH:MM - DD/MM/YYYY")
       }
       

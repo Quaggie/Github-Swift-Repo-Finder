@@ -21,6 +21,14 @@
 		E04ADCE11E30D66000FA451A /* RepoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E04ADCE01E30D66000FA451A /* RepoCell.xib */; };
 		E04ADCE31E30D69000FA451A /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04ADCE21E30D69000FA451A /* RepoCell.swift */; };
 		E04ADCE91E30DC1300FA451A /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04ADCE81E30DC1300FA451A /* GithubAPI.swift */; };
+		E04C6DC61E32350900A01EDE /* PullRequestsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DC51E32350900A01EDE /* PullRequestsDelegate.swift */; };
+		E04C6DC81E323FF400A01EDE /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DC71E323FF400A01EDE /* String+Helper.swift */; };
+		E04C6DCA1E32430800A01EDE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DC91E32430800A01EDE /* Alert.swift */; };
+		E04C6DCC1E32435F00A01EDE /* UIApplication+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DCB1E32435F00A01EDE /* UIApplication+Helper.swift */; };
+		E04C6DCF1E326C8000A01EDE /* RepositoryEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DCE1E326C8000A01EDE /* RepositoryEntityModel.swift */; };
+		E04C6DD11E326D1000A01EDE /* GithubRepoEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DD01E326D1000A01EDE /* GithubRepoEntityModel.swift */; };
+		E04C6DD31E326D7700A01EDE /* OwnerEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DD21E326D7700A01EDE /* OwnerEntityModel.swift */; };
+		E04C6DD51E326DE800A01EDE /* PullRequestEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04C6DD41E326DE800A01EDE /* PullRequestEntityModel.swift */; };
 		E0FF65221E3164B80094DAE7 /* GithubRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF65211E3164B80094DAE7 /* GithubRepo.swift */; };
 		E0FF65251E316EBB0094DAE7 /* GithubApiDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF65241E316EBB0094DAE7 /* GithubApiDelegate.swift */; };
 		E0FF65281E31709D0094DAE7 /* RepositoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF65271E31709D0094DAE7 /* RepositoriesViewController.swift */; };
@@ -66,6 +74,14 @@
 		E04ADCE21E30D69000FA451A /* RepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		E04ADCE81E30DC1300FA451A /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
 		E04ADCEA1E30E27400FA451A /* GithubRepoFinder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GithubRepoFinder-Bridging-Header.h"; sourceTree = "<group>"; };
+		E04C6DC51E32350900A01EDE /* PullRequestsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestsDelegate.swift; sourceTree = "<group>"; };
+		E04C6DC71E323FF400A01EDE /* String+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Helper.swift"; sourceTree = "<group>"; };
+		E04C6DC91E32430800A01EDE /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		E04C6DCB1E32435F00A01EDE /* UIApplication+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Helper.swift"; sourceTree = "<group>"; };
+		E04C6DCE1E326C8000A01EDE /* RepositoryEntityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryEntityModel.swift; sourceTree = "<group>"; };
+		E04C6DD01E326D1000A01EDE /* GithubRepoEntityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubRepoEntityModel.swift; sourceTree = "<group>"; };
+		E04C6DD21E326D7700A01EDE /* OwnerEntityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerEntityModel.swift; sourceTree = "<group>"; };
+		E04C6DD41E326DE800A01EDE /* PullRequestEntityModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRequestEntityModel.swift; sourceTree = "<group>"; };
 		E0FF65211E3164B80094DAE7 /* GithubRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubRepo.swift; sourceTree = "<group>"; };
 		E0FF65241E316EBB0094DAE7 /* GithubApiDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubApiDelegate.swift; sourceTree = "<group>"; };
 		E0FF65271E31709D0094DAE7 /* RepositoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoriesViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E0FF65231E316EA60094DAE7 /* Delegates */,
+				E04C6DCD1E326C5900A01EDE /* CoreDataModel */,
 				E04ADCE61E30DB7600FA451A /* Model */,
 				E04ADCE71E30DB8500FA451A /* View */,
 				E0FF65261E3170770094DAE7 /* Controller */,
@@ -171,6 +188,9 @@
 				E04ADCD21E30D03000FA451A /* CoreDataManager.swift */,
 				E04ADCD91E30D1F100FA451A /* Int+Helper.swift */,
 				E04ADCDB1E30D57300FA451A /* Date+Helper.swift */,
+				E04C6DC71E323FF400A01EDE /* String+Helper.swift */,
+				E04C6DC91E32430800A01EDE /* Alert.swift */,
+				E04C6DCB1E32435F00A01EDE /* UIApplication+Helper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -205,10 +225,22 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		E04C6DCD1E326C5900A01EDE /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				E04C6DCE1E326C8000A01EDE /* RepositoryEntityModel.swift */,
+				E04C6DD01E326D1000A01EDE /* GithubRepoEntityModel.swift */,
+				E04C6DD21E326D7700A01EDE /* OwnerEntityModel.swift */,
+				E04C6DD41E326DE800A01EDE /* PullRequestEntityModel.swift */,
+			);
+			name = CoreDataModel;
+			sourceTree = "<group>";
+		};
 		E0FF65231E316EA60094DAE7 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
 				E0FF65241E316EBB0094DAE7 /* GithubApiDelegate.swift */,
+				E04C6DC51E32350900A01EDE /* PullRequestsDelegate.swift */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -438,19 +470,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E04C6DCA1E32430800A01EDE /* Alert.swift in Sources */,
 				E0FF652F1E319B2D0094DAE7 /* PullRequestCell.swift in Sources */,
 				E0FF65351E31A0110094DAE7 /* Owner.swift in Sources */,
 				E04ADCE31E30D69000FA451A /* RepoCell.swift in Sources */,
 				E0FF65331E319FED0094DAE7 /* Repository.swift in Sources */,
+				E04C6DCC1E32435F00A01EDE /* UIApplication+Helper.swift in Sources */,
+				E04C6DD11E326D1000A01EDE /* GithubRepoEntityModel.swift in Sources */,
 				E0FF65221E3164B80094DAE7 /* GithubRepo.swift in Sources */,
+				E04C6DD31E326D7700A01EDE /* OwnerEntityModel.swift in Sources */,
 				E0FF65251E316EBB0094DAE7 /* GithubApiDelegate.swift in Sources */,
 				E0FF65281E31709D0094DAE7 /* RepositoriesViewController.swift in Sources */,
 				E04ADCB81E30CFD100FA451A /* GithubRepoFinder.xcdatamodeld in Sources */,
 				E04ADCDA1E30D1F100FA451A /* Int+Helper.swift in Sources */,
+				E04C6DC61E32350900A01EDE /* PullRequestsDelegate.swift in Sources */,
 				E04ADCD31E30D03000FA451A /* CoreDataManager.swift in Sources */,
 				E04ADCB01E30CFD100FA451A /* AppDelegate.swift in Sources */,
 				E0FF652C1E319AA30094DAE7 /* PullRequestsViewController.swift in Sources */,
 				E04ADCDC1E30D57300FA451A /* Date+Helper.swift in Sources */,
+				E04C6DCF1E326C8000A01EDE /* RepositoryEntityModel.swift in Sources */,
+				E04C6DC81E323FF400A01EDE /* String+Helper.swift in Sources */,
+				E04C6DD51E326DE800A01EDE /* PullRequestEntityModel.swift in Sources */,
 				E04ADCE91E30DC1300FA451A /* GithubAPI.swift in Sources */,
 				E0FF65371E31A0460094DAE7 /* PullRequest.swift in Sources */,
 			);

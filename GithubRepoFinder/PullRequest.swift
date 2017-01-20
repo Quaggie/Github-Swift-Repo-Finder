@@ -12,7 +12,7 @@ struct PullRequest: Mappable {
   var id: Int?
   var url: String?
   var title: String?
-  var createdAt: Date?
+  var createdAt: String?
   var body: String?
   var user: Owner?
   
@@ -22,9 +22,9 @@ struct PullRequest: Mappable {
   
   mutating func mapping(map: Map) {
     id <- map["id"]
-    url <- map["url"]
+    url <- map["html_url"]
     title <- map["title"]
-    createdAt <- map["createdAt"]
+    createdAt <- map["created_at"]
     body <- map["body"]
     user <- map["user"]
   }

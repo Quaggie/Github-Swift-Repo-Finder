@@ -13,7 +13,7 @@ struct Repository: Mappable {
   var name: String?
   var fullName: String?
   var owner: Owner?
-  var description: String?
+  var desc: String?
   var stargazersCount: Int?
   var forks: Int?
   
@@ -25,7 +25,7 @@ struct Repository: Mappable {
     name <- map["name"]
     fullName <- map["full_name"]
     owner <- map["owner"]
-    description <- map["description"]
+    desc <- map["description"]
     stargazersCount <- map["stargazers_count"]
     forks <- map["forks"]
   }
