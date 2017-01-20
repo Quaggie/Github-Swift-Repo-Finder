@@ -14,6 +14,10 @@ struct GithubRepo: Mappable {
   var incompleteResults: Bool?
   var items: [Repository]?
   
+  static var entityName: String {
+    return "GithubRepoEntity"
+  }
+  
   init?(map: Map) {
     
   }

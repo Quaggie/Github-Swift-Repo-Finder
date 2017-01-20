@@ -10,7 +10,11 @@ import UIKit
 import CoreData
 
 class PullRequestEntityModel: NSManagedObject {
-  @NSManaged var id: NSNumber // Int16
+  static var entityName: String {
+    return "PullRequestEntity"
+  }
+  
+  @NSManaged var id: NSNumber // Int32
   @NSManaged var url: String?
   @NSManaged var title: String?
   @NSManaged var createdAt: String?

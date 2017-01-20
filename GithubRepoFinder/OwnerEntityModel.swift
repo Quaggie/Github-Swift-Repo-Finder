@@ -10,7 +10,11 @@ import UIKit
 import CoreData
 
 class OwnerEntityModel: NSManagedObject {
-  @NSManaged var id: NSNumber? // Int16
+  static var entityName: String {
+    return "OwnerEntity"
+  }
+  
+  @NSManaged var id: NSNumber? // Int32
   @NSManaged var login: String?
   @NSManaged var avatarUrl: String?
 }

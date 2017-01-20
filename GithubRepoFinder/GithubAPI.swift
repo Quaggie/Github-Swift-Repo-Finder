@@ -33,6 +33,7 @@ class GithubAPI: NSObject {
       loadRepos()
     }
   }
+  private(set) var fetchedFromServer = true
   let language = "Swift"
   let sort = "stars"
   
@@ -41,8 +42,10 @@ class GithubAPI: NSObject {
     
     if reachability.isReachable { // Internet connection Ok
       Alamofire.request(REPO_URL).responseObject { [weak self] (response: DataResponse<GithubRepo>) in
+        self?.fetchedFromServer = true
         switch response.result {
         case .success(let githubRepo):
+          CoreDataManager.shared.saveGithubRepo(githubRepo: githubRepo)
           self?.githubApiDelegate?.successfullyRetrieved(githubRepo: githubRepo)
           break
         case .failure(let error):
@@ -51,7 +54,10 @@ class GithubAPI: NSObject {
         }
       }
     } else { // No internet connection
-      // TODO: Make a core data request
+      if let githubRepo = CoreDataManager.shared.fetchGithubRepo() {
+        fetchedFromServer = false
+        githubApiDelegate?.successfullyRetrieved(githubRepo: githubRepo)
+      }
     }
     
   } // loadRepos

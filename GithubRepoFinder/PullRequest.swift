@@ -16,6 +16,10 @@ struct PullRequest: Mappable {
   var body: String?
   var user: Owner?
   
+  static var entityName: String {
+    return "PullRequestEntity"
+  }
+  
   init?(map: Map) {
     
   }

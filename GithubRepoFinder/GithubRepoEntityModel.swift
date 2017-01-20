@@ -10,7 +10,11 @@ import UIKit
 import CoreData
 
 class GithubRepoEntityModel: NSManagedObject {
-  @NSManaged var totalCount: NSNumber? // Int16
+  static var entityName: String {
+    return "GithubRepoEntity"
+  }
+  
+  @NSManaged var totalCount: NSNumber? // Int32
   @NSManaged var incompleteResults: NSNumber? // Boolean
   var isIncompleteResults: Bool {
     get {

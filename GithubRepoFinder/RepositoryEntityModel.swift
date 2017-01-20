@@ -10,11 +10,15 @@ import UIKit
 import CoreData
 
 class RepositoryEntityModel: NSManagedObject {
-  @NSManaged var id: NSNumber? // Int16
+  static var entityName: String {
+    return "RepositoryEntity"
+  }
+  
+  @NSManaged var id: NSNumber? // Int32
   @NSManaged var name: String?
   @NSManaged var fullName: String?
   @NSManaged var owner: OwnerEntityModel?
   @NSManaged var desc: String?
-  @NSManaged var stargazersCount: NSNumber? // Int16
-  @NSManaged var forks: NSNumber? // In16
+  @NSManaged var stargazersCount: NSNumber? // Int32
+  @NSManaged var forks: NSNumber? // In32
 }

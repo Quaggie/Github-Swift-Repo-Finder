@@ -13,6 +13,10 @@ struct Owner: Mappable {
   var login: String?
   var avatarUrl: String?
   
+  static var entityName: String {
+    return "OwnerEntity"
+  }
+  
   init?(map: Map) {
     
   }

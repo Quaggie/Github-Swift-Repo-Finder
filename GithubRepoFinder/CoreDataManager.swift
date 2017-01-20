@@ -14,6 +14,103 @@ class CoreDataManager: NSObject {
   
   private override init () {}
   
+  func saveGithubRepo (githubRepo: GithubRepo?) {
+//    guard let githubRepo = githubRepo else {
+//      return
+//    }
+//
+//    if let githubRepoEntity = NSEntityDescription.entity(forEntityName: GithubRepo.entityName, in: managedObjectContext) {
+//      let githubRepoEntityModel = GithubRepoEntityModel(entity: githubRepoEntity, insertInto: managedObjectContext)
+//      githubRepoEntityModel.setValue(githubRepo.totalCount, forKey: "totalCount")
+//      githubRepoEntityModel.setValue(githubRepo.incompleteResults, forKey: "incompleteResults")
+//      
+//      let repos = NSMutableSet()
+//      githubRepo.items?.forEach{ repo in
+//        if let repositoryEntity = NSEntityDescription.entity(forEntityName: Repository.entityName, in: managedObjectContext) {
+//          let repositoryEntityModel = NSManagedObject(entity: repositoryEntity, insertInto: managedObjectContext)
+//          repositoryEntityModel.setValue(repo.id, forKey: "id")
+//          repositoryEntityModel.setValue(repo.name, forKey: "name")
+//          repositoryEntityModel.setValue(repo.fullName, forKey: "fullName")
+//          repositoryEntityModel.setValue(repo.desc, forKey: "desc")
+//          repositoryEntityModel.setValue(repo.stargazersCount, forKey: "stargazersCount")
+//          repositoryEntityModel.setValue(repo.forks, forKey: "forks")
+//          
+//          if let ownerEntity = NSEntityDescription.entity(forEntityName: Owner.entityName, in: managedObjectContext) {
+//            let ownerEntityModel = NSManagedObject(entity: ownerEntity, insertInto: managedObjectContext)
+//            ownerEntityModel.setValue(repo.owner?.id, forKey: "id")
+//            ownerEntityModel.setValue(repo.owner?.login, forKey: "login")
+//            ownerEntityModel.setValue(repo.owner?.avatarUrl, forKey: "avatarUrl")
+//            
+//            repositoryEntityModel.setValue(ownerEntityModel, forKey: "owner")
+//          } // ownerEntity
+//          repos.add(repositoryEntityModel)
+//        } // repositoryEntity
+//        githubRepoEntityModel.setValue(repos, forKey: "items")
+//      } // forEach
+//    } // githubRepoEntity
+//    
+//    saveContext()
+  }
+  
+  func fetchGithubRepo (page: Int = 1, limit: Int = 30) -> GithubRepo? {
+    let githubRepoFetchRequest = NSFetchRequest<GithubRepoEntity>(entityName: GithubRepo.entityName)
+    
+    do {
+      let results = try managedObjectContext.fetch(githubRepoFetchRequest)
+      if let result = results.first {
+        
+        var githubRepoJson: [String: Any] = [
+          "total_count" : Int(result.totalCount),
+          "incomplete_results": result.incompleteResults,
+        ]
+
+        if let items = result.items, let objects = items.allObjects as? [RepositoryEntity] {
+          // Sorting by github stars
+          let sortedObjects = objects.sorted(by: { (prev, curr) -> Bool in
+            return prev.stargazersCount > curr.stargazersCount
+          })
+          
+          let repos = sortedObjects.map { repo -> [String: Any?] in
+            var repoJson: [String: Any?] = [:]
+            
+            repoJson["id"] = Int(repo.id)
+            if let name = repo.name {
+              repoJson["name"] = name
+            }
+            if let fullName = repo.fullName {
+              repoJson["full_name"] = fullName
+            }
+            if let desc = repo.desc {
+              repoJson["description"] = desc
+            }
+            repoJson["stargazers_count"] = Int(repo.stargazersCount)
+            repoJson["forks"] = Int(repo.forks)
+            
+            if let owner = repo.owner {
+              var ownerJson: [String: Any?] = [:]
+              
+              ownerJson["id"] = Int(owner.id)
+              if let login = owner.login {
+                ownerJson["login"] = login
+              }
+              if let avatarUrl = owner.avatarUrl {
+                ownerJson["avatar_url"] = avatarUrl
+              }
+              
+              repoJson["owner"] = ownerJson
+            }
+            return repoJson
+          }
+          githubRepoJson["items"] = repos
+        }
+        return GithubRepo(JSON: githubRepoJson)
+      }
+    } catch let error as NSError {
+      print("Error \(error.localizedDescription) with userinfo -> \(error.userInfo)")
+    }
+    return nil
+  }
+  
   private lazy var applicationDocumentsDirectory: URL = {
     let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return urls[urls.count-1]

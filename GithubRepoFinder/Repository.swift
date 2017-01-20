@@ -17,6 +17,10 @@ struct Repository: Mappable {
   var stargazersCount: Int?
   var forks: Int?
   
+  static var entityName: String {
+    return "RepositoryEntity"
+  }
+  
   init?(map: Map) {
     
   }

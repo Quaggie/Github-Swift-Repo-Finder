@@ -34,6 +34,8 @@ class RepositoriesViewController: UIViewController {
     super.viewDidLoad()
     setupCollectionView()
     setupDelegates()
+    // Carregando as informações assim que o app inicia
+    GithubAPI.shared.loadRepos()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +50,12 @@ class RepositoriesViewController: UIViewController {
   
   func setupDelegates () {
     GithubAPI.shared.githubApiDelegate = self
+  }
+  
+  func fetchFreshDataIfNeeded () {
+    if !isFetching, !GithubAPI.shared.fetchedFromServer {
+      GithubAPI.shared.loadRepos()
+    }
   }
 }
 
@@ -182,9 +190,8 @@ extension RepositoriesViewController {
       return
     }
     
-    
     if reachability.isReachable {
-      print("reachable")
+      fetchFreshDataIfNeeded()
     } else {
       print("Network not reachable")
     }
