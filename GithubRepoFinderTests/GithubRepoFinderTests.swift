@@ -10,10 +10,13 @@ import XCTest
 @testable import GithubRepoFinder
 
 class GithubRepoFinderTests: XCTestCase {
+  var repoVC: RepositoriesViewController?
+  var pullRequestsVC: PullRequestsViewController?
     
   override func setUp() {
     super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    repoVC = RepositoriesViewController.instantiateFromStoryboard()
+    pullRequestsVC = PullRequestsViewController.instantiateFromStoryboard()
   }
   
   override func tearDown() {
@@ -34,7 +37,17 @@ class GithubRepoFinderTests: XCTestCase {
   }
   
   func testGithubApi () {
-    XCTAssert(GithubAPI.shared.page == 0, "Page starts with 0")
+    XCTAssert(GithubAPI.shared.page == 1, "Page should start with 1")
+    XCTAssert(GithubAPI.shared.isFirstTime == true, "isFirstTime should be true on load")
+    
+    GithubAPI.shared.loadNextPage()
+    
+    XCTAssert(GithubAPI.shared.isFirstTime == false, "isFirstTime(\(GithubAPI.shared.page)) should be false")
+    
+  }
+  
+  func testCoreDataManager () {
+    // TODO
   }
     
 }
