@@ -34,8 +34,7 @@ class RepositoriesViewController: UIViewController {
     super.viewDidLoad()
     setupCollectionView()
     setupDelegates()
-    // Carregando as informações assim que o app inicia
-    GithubAPI.shared.loadRepos()
+    setupRepos()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +49,10 @@ class RepositoriesViewController: UIViewController {
   
   func setupDelegates () {
     GithubAPI.shared.githubApiDelegate = self
+  }
+  
+  func setupRepos () {
+    GithubAPI.shared.loadRepos()
   }
   
   func fetchFreshDataIfNeeded () {

@@ -15,6 +15,7 @@ struct PullRequest: Mappable {
   var createdAt: String?
   var body: String?
   var user: Owner?
+  var repoId: Int?
   
   static var entityName: String {
     return "PullRequestEntity"
@@ -31,5 +32,6 @@ struct PullRequest: Mappable {
     createdAt <- map["created_at"]
     body <- map["body"]
     user <- map["user"]
+    repoId <- map["base.repo.id"]
   }
 }

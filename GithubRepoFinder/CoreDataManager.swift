@@ -144,10 +144,55 @@ class CoreDataManager: NSObject {
     return nil
   }
   
+  func savePullRequests (repo: Repository?, pullRequests: [PullRequest]?) {
+    guard let repo = repo, let pullRequests = pullRequests else {
+      return
+    }
+    let pullRequestsFetchRequest = NSFetchRequest<PullRequestEntity>(entityName: PullRequest.entityName)
+    if let repoId = repo.id {
+      let predicate = NSPredicate(format: "repoId = %@", "\(repoId)")
+      
+      pullRequestsFetchRequest.predicate = predicate
+    }
+    
+    do {
+      let pullRequestEntities = try managedObjectContext.fetch(pullRequestsFetchRequest)
+
+      pullRequestEntities.forEach { managedObjectContext.delete($0) }
+    } catch {
+      print("Couldn't fetch PullRequestEntity")
+    }
+    
+    pullRequests.forEach { pullRequest in
+      if let pullRequestEntity = NSEntityDescription.entity(forEntityName: PullRequest.entityName, in: managedObjectContext) {
+        let pullRequestEntityModel = NSManagedObject(entity: pullRequestEntity, insertInto: managedObjectContext)
+        
+        pullRequestEntityModel.setValue(pullRequest.id, forKey: "id")
+        pullRequestEntityModel.setValue(pullRequest.url, forKey: "url")
+        pullRequestEntityModel.setValue(pullRequest.title, forKey: "title")
+        pullRequestEntityModel.setValue(pullRequest.createdAt, forKey: "createdAt")
+        pullRequestEntityModel.setValue(pullRequest.body, forKey: "body")
+        pullRequestEntityModel.setValue(repo.id, forKey: "repoId")
+        
+        if let ownerEntity = NSEntityDescription.entity(forEntityName: Owner.entityName, in: managedObjectContext) {
+          let ownerEntityModel = NSManagedObject(entity: ownerEntity, insertInto: managedObjectContext)
+          
+          ownerEntityModel.setValue(pullRequest.user?.id, forKey: "id")
+          ownerEntityModel.setValue(pullRequest.user?.login, forKey: "login")
+          ownerEntityModel.setValue(pullRequest.user?.avatarUrl, forKey: "avatarUrl")
+          
+          pullRequestEntityModel.setValue(ownerEntityModel, forKey: "user")
+        }
+      }
+    }
+    
+    saveContext()
+  }
+  
   func fetchPullRequests (for repo: Repository) -> [PullRequest]? {
     let pullRequestsFetchRequest = NSFetchRequest<PullRequestEntity>(entityName: PullRequest.entityName)
-    if let id = repo.id {
-      let predicate = NSPredicate(format: "id = %@", "\(id)")
+    if let repoId = repo.id {
+      let predicate = NSPredicate(format: "repoId = %@", "\(repoId)")
       
       pullRequestsFetchRequest.predicate = predicate
     } else {
@@ -161,9 +206,12 @@ class CoreDataManager: NSObject {
         var pullRequestJson: [String: Any] = [:]
         
         pullRequestJson["id"] = Int(pullRequestEntity.id)
+        let idObj: [String: Any?] = ["id": Int(pullRequestEntity.repoId)]
+        let repoObj: [String: Any?] = ["repo": idObj]
+        pullRequestJson["base"] = repoObj
         
         if let url = pullRequestEntity.url {
-          pullRequestJson["url"] = url
+          pullRequestJson["html_url"] = url
         }
         if let title = pullRequestEntity.title {
           pullRequestJson["title"] = title
@@ -182,7 +230,7 @@ class CoreDataManager: NSObject {
             userJson["login"] = login
           }
           if let avatarUrl = user.avatarUrl {
-            userJson["avatarUrl"] = avatarUrl
+            userJson["avatar_url"] = avatarUrl
           }
           
           pullRequestJson["user"] = userJson

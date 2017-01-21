@@ -73,6 +73,7 @@ class GithubAPI: NSObject {
       Alamofire.request(PULL_REQUESTS_URL).responseArray { [weak self] (response: DataResponse<[PullRequest]>) in
         switch response.result {
         case .success(let pullRequests):
+          CoreDataManager.shared.savePullRequests(repo: repo, pullRequests: pullRequests)
           self?.pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests)
           break
         case .failure(let error):

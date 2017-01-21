@@ -44,10 +44,10 @@ class PullRequestsViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupDelegates()
     setupTableView()
     setupLayout()
     setupPullRequests()
-    setupDelegates()
   }
 
 }
