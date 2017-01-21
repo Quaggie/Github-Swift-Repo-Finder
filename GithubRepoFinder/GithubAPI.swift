@@ -54,10 +54,9 @@ class GithubAPI: NSObject {
         }
       }
     } else { // No internet connection
-      if let githubRepo = CoreDataManager.shared.fetchGithubRepo() {
-        fetchedFromServer = false
-        githubApiDelegate?.successfullyRetrieved(githubRepo: githubRepo)
-      }
+      let githubRepo = CoreDataManager.shared.fetchGithubRepo()
+      fetchedFromServer = false
+      githubApiDelegate?.successfullyRetrieved(githubRepo: githubRepo)
     }
     
   } // loadRepos

@@ -7,7 +7,7 @@
 //
 
 protocol GithubApiDelegate: class {
-  func successfullyRetrieved (githubRepo: GithubRepo)
+  func successfullyRetrieved (githubRepo: GithubRepo?)
   func failedToRetrieve (with error: Error)
   func loadingRepos ()
 }

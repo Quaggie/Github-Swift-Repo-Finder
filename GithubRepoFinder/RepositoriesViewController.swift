@@ -16,12 +16,20 @@ class RepositoriesViewController: UIViewController {
   
   @IBOutlet weak var collectionView: UICollectionView!
   
+  @IBOutlet weak var noReposView: UIView!
+  
   var githubRepo: GithubRepo? {
     didSet {
-      guard githubRepo != nil else {
+      guard let githubRepo = githubRepo else {
+        noReposView.isHidden = false
         return
       }
-      collectionView.reloadData()
+      if let items = githubRepo.items, items.count > 0 {
+        noReposView.isHidden = true
+        collectionView.reloadData()
+      } else {
+        noReposView.isHidden = false
+      }
     }
   }
   var isFetching = false
@@ -146,12 +154,12 @@ extension RepositoriesViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: GithubApi Delegate
 extension RepositoriesViewController: GithubApiDelegate {
-  func successfullyRetrieved(githubRepo: GithubRepo) {
+  func successfullyRetrieved(githubRepo: GithubRepo?) {
     isFetching = false
     if GithubAPI.shared.isFirstTime {
       self.githubRepo = githubRepo
     } else {
-      if let items = githubRepo.items {
+      if let items = githubRepo?.items {
         self.githubRepo?.items?.append(contentsOf: items)
       }
     }

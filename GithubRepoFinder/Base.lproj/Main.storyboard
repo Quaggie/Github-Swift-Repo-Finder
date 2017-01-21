@@ -57,18 +57,41 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43I-o8-6CW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Não há repositórios armazenados" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IDH-BF-tfH">
+                                        <rect key="frame" x="8" y="320" width="359" height="27.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" red="0.2409519011" green="0.24333756349999999" blue="0.24333756349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="IDH-BF-tfH" firstAttribute="centerX" secondItem="43I-o8-6CW" secondAttribute="centerX" id="aGF-S3-Il9"/>
+                                    <constraint firstItem="IDH-BF-tfH" firstAttribute="leading" secondItem="43I-o8-6CW" secondAttribute="leading" constant="8" id="gJb-GX-6e9"/>
+                                    <constraint firstItem="IDH-BF-tfH" firstAttribute="centerY" secondItem="43I-o8-6CW" secondAttribute="centerY" id="qap-K2-Jyq"/>
+                                    <constraint firstAttribute="trailing" secondItem="IDH-BF-tfH" secondAttribute="trailing" constant="8" id="zG4-th-Py2"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="43I-o8-6CW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="0eu-hL-Cba"/>
+                            <constraint firstAttribute="trailing" secondItem="43I-o8-6CW" secondAttribute="trailing" id="DV9-as-ddK"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="43I-o8-6CW" secondAttribute="bottom" id="O4S-Pc-TIm"/>
                             <constraint firstItem="BRC-b4-GQ5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="QKQ-Ce-8cA"/>
                             <constraint firstAttribute="trailing" secondItem="BRC-b4-GQ5" secondAttribute="trailing" id="bhw-NI-IoW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BRC-b4-GQ5" secondAttribute="bottom" id="cpK-J8-JVU"/>
+                            <constraint firstItem="43I-o8-6CW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fIA-76-Mnz"/>
                             <constraint firstItem="BRC-b4-GQ5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hsV-36-uBV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Swift Repos" id="bxo-TX-dLJ"/>
                     <connections>
                         <outlet property="collectionView" destination="BRC-b4-GQ5" id="Je8-3y-X8C"/>
+                        <outlet property="noReposView" destination="43I-o8-6CW" id="gc6-cf-K04"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
