@@ -7,7 +7,7 @@
 //
 
 protocol PullRequestsDelegate: class {
-  func successfullyRetrieved (pullRequests: [PullRequest])
+  func successfullyRetrieved (pullRequests: [PullRequest]?, fetchedFromServer: Bool)
   func failedToRetrieve (with error: Error)
   func loadingPullRequests ()
 }

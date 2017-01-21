@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import ReachabilitySwift
 
 class PullRequestsViewController: UIViewController {
   
   var repo: Repository?
   var currentPage: Int = 1
+  var reachability = Reachability()!
+  var fetchedFromServer = false
+  
   var isFetching = false {
     didSet {
       if isFetching {
         tableView.isHidden = true
+        noPullRequestsView.isHidden = true
         if !activityIndicator.isAnimating {
           activityIndicator.startAnimating()
         }
@@ -29,13 +34,26 @@ class PullRequestsViewController: UIViewController {
 
   var pullRequests: [PullRequest]? {
     didSet {
-      guard pullRequests != nil else {
+      guard let pullRequests = pullRequests, fetchedFromServer == true else {
+        // No PullRequests were fetched
+        noPullRequestsView.isHidden = false
+        labelMessage.text = "Não há dados armazenados para este Pull Request"
         return
       }
-      tableView.reloadData()
+      labelMessage.text = "Não há Pull Requests neste repositório"
+      // PullRequests were fetched but there aren't any available
+      if pullRequests.count > 0 {
+        noPullRequestsView.isHidden = true
+        tableView.reloadData()
+      } else {
+        noPullRequestsView.isHidden = false
+      }
     }
   }
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var noPullRequestsView: UIView!
+  
+  @IBOutlet weak var labelMessage: UILabel!
   
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   class func instantiateFromStoryboard () -> PullRequestsViewController {
@@ -48,6 +66,22 @@ class PullRequestsViewController: UIViewController {
     setupTableView()
     setupLayout()
     setupPullRequests()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    addObservers()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeObservers()
+  }
+  
+  func fetchFreshDataIfNeeded () {
+    if let repo = repo, !isFetching, !fetchedFromServer {
+      GithubAPI.shared.loadPullRequests(repo: repo)
+    }
   }
 
 }
@@ -87,7 +121,6 @@ extension PullRequestsViewController {
 // MARK: UITableView Delegate & Datsource
 extension PullRequestsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print("IndexPath \(indexPath) selected")
     guard let pullRequests = pullRequests else {
       return
     }
@@ -95,8 +128,6 @@ extension PullRequestsViewController: UITableViewDelegate {
     if let urlString = pullRequest.url, let url = URL(string: urlString) {
       if UIApplication.shared.canOpenURL(url) {
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-      } else {
-        // Mensagem de erro falando que não pode abrir o url
       }
     }
   }
@@ -124,8 +155,9 @@ extension PullRequestsViewController: UITableViewDataSource {
 }
 
 extension PullRequestsViewController: PullRequestsDelegate {
-  func successfullyRetrieved(pullRequests: [PullRequest]) {
+  func successfullyRetrieved(pullRequests: [PullRequest]?, fetchedFromServer: Bool) {
     isFetching = false
+    self.fetchedFromServer = fetchedFromServer
     self.pullRequests = pullRequests
   }
   
@@ -136,5 +168,39 @@ extension PullRequestsViewController: PullRequestsDelegate {
   
   func loadingPullRequests() {
     isFetching = true
+  }
+}
+
+// MARK: Observers
+extension PullRequestsViewController {
+  func addObservers () {
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(reachabilityChanged),
+                                           name: ReachabilityChangedNotification,
+                                           object: reachability)
+    do{
+      try reachability.startNotifier()
+    } catch {
+      print("Could not start reachability notifier")
+    }
+  }
+  
+  func removeObservers () {
+    reachability.stopNotifier()
+    NotificationCenter.default.removeObserver(self,
+                                              name: ReachabilityChangedNotification,
+                                              object: reachability)
+  }
+  
+  func reachabilityChanged (notification: Notification) {
+    guard let reachability = notification.object as? Reachability else {
+      return
+    }
+    
+    if reachability.isReachable {
+      fetchFreshDataIfNeeded()
+    } else {
+      print("Network not reachable")
+    }
   }
 }

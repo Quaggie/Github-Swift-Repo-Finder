@@ -74,7 +74,7 @@ class GithubAPI: NSObject {
         switch response.result {
         case .success(let pullRequests):
           CoreDataManager.shared.savePullRequests(repo: repo, pullRequests: pullRequests)
-          self?.pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests)
+          self?.pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests, fetchedFromServer: true)
           break
         case .failure(let error):
           self?.pullRequestsDelegate?.failedToRetrieve(with: error)
@@ -82,9 +82,9 @@ class GithubAPI: NSObject {
         }
       }
     } else { // No internet connection
-      if let pullRequests = CoreDataManager.shared.fetchPullRequests(for: repo) {
-        pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests)
-      }
+      let pullRequests = CoreDataManager.shared.fetchPullRequests(for: repo)
+      pullRequestsDelegate?.successfullyRetrieved(pullRequests: pullRequests, fetchedFromServer: false)
+      
     }
     
   } // loadPullRequests
