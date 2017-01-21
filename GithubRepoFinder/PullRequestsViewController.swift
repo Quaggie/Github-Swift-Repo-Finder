@@ -127,7 +127,7 @@ extension PullRequestsViewController: UITableViewDelegate {
     let pullRequest = pullRequests[indexPath.row]
     if let urlString = pullRequest.url, let url = URL(string: urlString) {
       if UIApplication.shared.canOpenURL(url) {
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        UIApplication.shared.openURL(url)
       }
     }
   }
