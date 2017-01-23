@@ -34,19 +34,18 @@ class PullRequestsViewController: UIViewController {
 
   var pullRequests: [PullRequest]? {
     didSet {
-      guard let pullRequests = pullRequests, fetchedFromServer == true else {
-        // No PullRequests were fetched
-        noPullRequestsView.isHidden = false
-        labelMessage.text = "Não há dados armazenados para este Pull Request"
-        return
-      }
-      labelMessage.text = "Não há Pull Requests neste repositório"
-      // PullRequests were fetched but there aren't any available
-      if pullRequests.count > 0 {
-        noPullRequestsView.isHidden = true
-        tableView.reloadData()
-      } else {
-        noPullRequestsView.isHidden = false
+      if let pullRequests = pullRequests {
+        if pullRequests.count > 0 {
+          noPullRequestsView.isHidden = true
+          tableView.reloadData()
+        } else {
+          noPullRequestsView.isHidden = false
+          if fetchedFromServer {
+            labelMessage.text = "Não há Pull Requests neste repositório"
+          } else {
+            labelMessage.text = "Não há dados armazenados para este Pull Request"
+          }
+        }
       }
     }
   }
@@ -130,6 +129,7 @@ extension PullRequestsViewController: UITableViewDelegate {
         UIApplication.shared.openURL(url)
       }
     }
+    tableView.deselectRow(at: indexPath, animated: true)
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
